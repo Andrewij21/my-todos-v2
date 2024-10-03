@@ -7,6 +7,7 @@ import { Prisma } from "@prisma/client";
 import { SignInSchema, SignUpSchema } from "@/lib/zod";
 import { z } from "zod";
 import { redirect } from "next/navigation";
+import bcrypt from "bcryptjs"
 
 export async function handleSignIn(values:z.infer<typeof SignInSchema>){
     const valudatedFields = SignInSchema.safeParse(values);
@@ -17,19 +18,18 @@ export async function handleSignIn(values:z.infer<typeof SignInSchema>){
     try {
         await signIn('credentials',{email:values.email,password:values.password,redirectTo:"/"})
     } catch (error) {
-        if(error instanceof AuthError){
-            switch (error.type){
-                case 'CredentialsSignin':
-                    return {
-                        message:"Invalid Credentials"
-                    }
-                default: 
-                    return {
-                        message:"Something went wrong"
-                    }
-            }
-        }    
-        throw error    
+         if(error instanceof AuthError){
+            let message="";
+            switch(error.type){
+                case "CredentialsSignin":
+                     message = ("Invalid credentials!")
+                     break
+                default:
+                    message = ("Something went wrong!")
+                }
+                throw Error(message)
+            } 
+       throw error
     }
 }
 
@@ -42,11 +42,13 @@ export async function handleSignup(values:z.infer<typeof SignUpSchema>){
         console.error("Invalid credentials", valudatedFields.error.errors);
         throw valudatedFields.error.errors
     }
+    const hashPassword = await bcrypt.hash(values.password,10);
+
     try {
         await prisma.user.create({
             data:{
                 email:values.email,
-                password:values.password
+                password:hashPassword
             }
         })
         return redirect("/auth/signin");

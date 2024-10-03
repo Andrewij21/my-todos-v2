@@ -1,7 +1,8 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import Github from "next-auth/providers/github"
-
+import { prisma } from "./lib/prismaDb";
+import bcrypt from "bcryptjs"
 export const {handlers,signIn,signOut,auth} = NextAuth({
     providers:[
         Github({
@@ -15,24 +16,30 @@ export const {handlers,signIn,signOut,auth} = NextAuth({
                 password:{label:"Password",type:"password",placeholder:"Password"},
             },
              async authorize(credentials) {
-                let user = null;
                 console.log({credentials})
                 // Validate user(check if user exist and check if password is correct)
-
-
-                user ={
-                    id:"1",
-                    name:"bob",
-                    email:"bob@gmail.com",
-                    role:"admin"
+                    // Pastikan email dan password ada di credentials
+                if (!credentials?.email || typeof credentials.email !== 'string') {
+                    throw new Error("Email is required and must be a string");
                 }
+
+                if (!credentials?.password || typeof credentials.password !== 'string') {
+                    throw new Error("Password is required and must be a string");
+                }
+                const user = await prisma.user.findUnique({
+                    where:{email:credentials.email},
+                    select:{id:true,email:true,password:true}
+                })
+                
 
                 if(!user){
                     console.log("Invalid credentials")
                     return null;
-                }
+                } 
+                const passwordMatch = await bcrypt.compare(credentials.password,user.password)
+                if(passwordMatch) return {id:user.id,email:user.email,role:""};
 
-                return user
+                return null
             },
         })
     ],
