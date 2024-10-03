@@ -10,19 +10,19 @@ import {
 } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { Post } from "@prisma/client";
 import dateFormater from "@/lib/formatters";
 import fetcher from "@/lib/fetch";
 import { putData } from "@/lib/axiosInstance";
-
+import { useRouter } from "next/navigation";
 // Fetcher function for SWR
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function DetailPage({ params }: { params: { id: string } }) {
   // Fetch todo data using SWR based on the id from params
   const { data, error } = useSWR<Post, Error>(`/todo/${params.id}`, fetcher);
-
+  const { push } = useRouter();
   const [todo, setTodo] = useState<{ title: string; body: string }>({
     title: "",
     body: "",
@@ -45,7 +45,8 @@ export default function DetailPage({ params }: { params: { id: string } }) {
         ...todo,
         userId: "66fbb19453d964750f03a595",
       });
-      mutate("/todo/" + data?.id);
+      push("/");
+      // mutate("/todo/" + data?.id);
       alert("success");
     } catch (error) {
       console.error("Error saving todo:", error);
