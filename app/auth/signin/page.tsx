@@ -36,7 +36,7 @@ export default function SignInPage() {
       await handleSignIn(values);
       form.reset();
     } catch (error) {
-      alert(error);
+      console.error(error);
     }
   }
   return (
