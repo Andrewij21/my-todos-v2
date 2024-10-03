@@ -24,7 +24,9 @@ export default async function Nav() {
             <Button variant={"outline"} asChild>
               <Link href="/auth/signin">Sign in</Link>
             </Button>
-            {/* <Button>Sign up</Button> */}
+            <Button>
+              <Link href="/auth/signup">Sign up</Link>
+            </Button>
           </>
         )}
       </div>
