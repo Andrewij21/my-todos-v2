@@ -1,7 +1,6 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import Github from "next-auth/providers/github"
-import { SignInSchema } from "./lib/zod";
 
 export const {handlers,signIn,signOut,auth} = NextAuth({
     providers:[
@@ -19,11 +18,7 @@ export const {handlers,signIn,signOut,auth} = NextAuth({
                 let user = null;
                 console.log({credentials})
                 // Validate user(check if user exist and check if password is correct)
-                const parsedCredentials = SignInSchema.safeParse(credentials);
-                if(parsedCredentials.error){
-                    console.error("Invalid credentials", parsedCredentials.error.errors);
-                    return null
-                }
+
 
                 user ={
                     id:"1",
@@ -46,15 +41,15 @@ export const {handlers,signIn,signOut,auth} = NextAuth({
         signIn:"/auth/signin"
     },
     callbacks:{
-        authorized({request:{nextUrl},auth}){
-            const isLoggedIn = !!auth?.user;
-            const {pathname} = nextUrl
-            if(pathname.startsWith("/auth") && isLoggedIn){
-                return Response.redirect(new URL("/",nextUrl))
-            }
-            // kalau mau check apakah user admin atau bukan bisa di sini
-            return !!auth
-        },
+        // authorized({request:{nextUrl},auth}){
+        //     const isLoggedIn = !!auth?.user;
+        //     const {pathname} = nextUrl
+        //     if(pathname.startsWith("/auth") && isLoggedIn){
+        //         return Response.redirect(new URL("/",nextUrl))
+        //     }
+        //     // kalau mau check apakah user admin atau bukan bisa di sini
+        //     return true
+        // },
         jwt({token,user}) {
             if(user){
                 token.id = user.id as string
