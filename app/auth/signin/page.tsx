@@ -20,7 +20,6 @@ import { Input } from "@/components/ui/input";
 import { SignInSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { AuthError } from "next-auth";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -37,10 +36,7 @@ export default function SignInPage() {
       await handleSignIn(values);
       form.reset();
     } catch (error) {
-      if (error instanceof AuthError) {
-        alert(error);
-      }
-      console.error(error);
+      alert(error);
     }
   }
   return (
