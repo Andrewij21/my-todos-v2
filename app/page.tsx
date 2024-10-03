@@ -13,6 +13,7 @@ export default function Home() {
     try {
       await postData("/todo", { ...data, userId: "66fbb19453d964750f03a595" });
       mutate("/todo");
+      alert("success");
     } catch (error) {
       console.error("Error saving todo:", error);
     }
