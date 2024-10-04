@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prismaDb";
-export async function GET(){
+export async function GET(req:Request){
     try {
-        const data = await prisma.post.findMany();
+        let query={}
+        const { searchParams } = new URL(req.url);
+        const email = searchParams.get("email");
+        if(email)query={where:{user:{email}}}
+        const data = await prisma.post.findMany(query);
         return NextResponse.json(data,{status:200})
     } catch (error) {
         console.log("[GET TODO]"+error)
