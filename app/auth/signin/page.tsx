@@ -1,5 +1,5 @@
 "use client";
-import { handleGithubSignin, handleSignIn } from "@/app/actions/authActions";
+import { handleSignIn, handleGoogleSignin } from "@/app/actions/authActions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,7 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignInSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+// import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { Chrome } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -102,10 +103,16 @@ export default function SignInPage() {
         </Form>
         <CardFooter className="flex flex-col gap-2 items-stretch text-center">
           <span className="text-card-foreground">or</span>
-          <form action={handleGithubSignin}>
+          {/* <form action={handleGithubSignin}>
             <Button variant="outline" className="w-full">
               <GitHubLogoIcon className="mr-2" />
               sign up with github
+            </Button>
+          </form> */}
+          <form action={handleGoogleSignin}>
+            <Button variant="outline" className="w-full">
+              <Chrome className="mr-2" />
+              sign up with google
             </Button>
           </form>
         </CardFooter>

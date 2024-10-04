@@ -8,7 +8,7 @@ import { auth } from "@/auth";
 export default async function Nav() {
   const session = await auth(); //gunakan ini di server component
   // const { data: session } = useSession();
-  console.log({ session });
+  // console.log({ session });
   return (
     <nav className="px-4 py-2 flex justify-between items-center shadow">
       <h1 className="text-3xl tracking-tight font-bold capitalize">

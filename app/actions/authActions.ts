@@ -36,6 +36,9 @@ export async function handleSignIn(values:z.infer<typeof SignInSchema>){
 export async function handleGithubSignin(){
     await signIn('github',{redirectTo:"/"})
 }
+export async function handleGoogleSignin(){
+    await signIn('google',{redirectTo:"/"})
+}
 export async function handleSignup(values:z.infer<typeof SignUpSchema>){
     const valudatedFields = SignUpSchema.safeParse(values);
     if(valudatedFields.error){ 
