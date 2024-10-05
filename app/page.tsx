@@ -1,12 +1,13 @@
 "use client";
 import { z } from "zod";
-import TodoForm, { formSchema } from "./components/TodoForm";
+import TodoForm from "./components/TodoForm";
 import TodoLists from "./components/TodoLists";
 import useSWR, { mutate } from "swr";
 import fetcher from "@/lib/fetch";
 import { Post } from "@prisma/client";
 import { deleteData, postData } from "@/lib/axiosInstance";
 import { useSession } from "next-auth/react";
+import { CreateTodoSchema } from "@/lib/zod";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -15,7 +16,7 @@ export default function Home() {
     fetcher
   );
   console.log({ session });
-  const handleSaveTodo = async (data: z.infer<typeof formSchema>) => {
+  const handleSaveTodo = async (data: z.infer<typeof CreateTodoSchema>) => {
     try {
       await postData("/todo", { ...data, userId: "66fbb19453d964750f03a595" });
       mutate("/todo");
