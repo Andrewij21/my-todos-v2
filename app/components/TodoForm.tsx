@@ -31,17 +31,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-
-export const formSchema = z.object({
-  title: z
-    .string()
-    .min(1, { message: "Must contain at least 1 character(s)" })
-    .max(50),
-  body: z
-    .string()
-    .min(1, { message: "Must contain at least 1 character(s)" })
-    .max(100),
-});
+import { CreateTodoSchema } from "@/lib/zod";
 
 export default function TodoForm({
   className,
@@ -51,12 +41,12 @@ export default function TodoForm({
 }: {
   className: string;
   todo?: { title: string; body: string };
-  submitHandler: (p: z.infer<typeof formSchema>) => void;
-  onChange: (data: z.infer<typeof formSchema>) => void;
+  submitHandler: (p: z.infer<typeof CreateTodoSchema>) => void;
+  onChange: (data: z.infer<typeof CreateTodoSchema>) => void;
 }) {
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof CreateTodoSchema>>({
+    resolver: zodResolver(CreateTodoSchema),
     defaultValues: {
       title: "",
       body: "",
@@ -85,7 +75,7 @@ export default function TodoForm({
     return () => subscription.unsubscribe();
   }, [form, onChange]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof CreateTodoSchema>) {
     submitHandler(values);
     form.reset();
     setOpenModal(false);
@@ -142,7 +132,7 @@ export default function TodoForm({
 function TodoFormContent({
   form,
 }: {
-  form: UseFormReturn<z.infer<typeof formSchema>>;
+  form: UseFormReturn<z.infer<typeof CreateTodoSchema>>;
 }) {
   return (
     <div className="space-y-2">
