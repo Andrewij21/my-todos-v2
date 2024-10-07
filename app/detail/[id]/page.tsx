@@ -17,6 +17,7 @@ import fetcher from "@/lib/fetch";
 import { putData } from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
 import { CreateTodoSchema } from "@/lib/zod";
+import { toast } from "sonner";
 // Fetcher function for SWR
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -42,12 +43,17 @@ export default function DetailPage({ params }: { params: { id: string } }) {
   // Handle saving the todo
   const handleSaveTodo = async (todo: z.infer<typeof CreateTodoSchema>) => {
     try {
-      await putData("/todo/" + data?.id, {
+      const editedTodo = putData("/todo/" + data?.id, {
         ...todo,
       });
-      push("/");
-      // mutate("/todo/" + data?.id);
-      alert("success");
+      toast.promise(editedTodo, {
+        loading: "Loading...",
+        success: () => {
+          push("/");
+          return `Success`;
+        },
+        error: "Error",
+      });
     } catch (error) {
       console.error("Error saving todo:", error);
     }
