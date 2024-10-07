@@ -69,5 +69,5 @@ export async function handleSignup(values:z.infer<typeof SignUpSchema>){
     }
 }
 export async function handleSignout(){
-    await signOut()
+   return await signOut()
 }

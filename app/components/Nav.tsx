@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 // import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { handleSignout } from "../actions/authActions";
 import { auth } from "@/auth";
+import SignoutButton from "./SignoutButton";
 
 export default async function Nav() {
   const session = await auth(); //gunakan ini di server component
@@ -16,9 +16,10 @@ export default async function Nav() {
       </h1>
       <div className="flex items-center gap-x-4">
         {session ? (
-          <form action={handleSignout}>
-            <Button type="submit">Sign out</Button>
-          </form>
+          // <form action={handleSignout}>
+          //   <Button type="submit">Sign out</Button>
+          // </form>
+          <SignoutButton />
         ) : (
           <>
             <Button variant={"outline"} asChild>
