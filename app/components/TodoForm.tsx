@@ -105,7 +105,7 @@ export default function TodoForm({
         </Card>
         <Dialog open={openModal} onOpenChange={setOpenModal}>
           <DialogTrigger className="md:hidden" asChild>
-            <Button variant="success">Add Todo</Button>
+            <Button variant="success">{todo ? "Edit" : "Add "} Todo</Button>
           </DialogTrigger>
           <DialogContent className="rounded-xl">
             <DialogHeader>
