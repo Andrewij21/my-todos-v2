@@ -23,7 +23,7 @@ export const {handlers,signIn,signOut,auth} = NextAuth({
                 password:{label:"Password",type:"password",placeholder:"Password"},
             },
              async authorize(credentials) {
-                console.log({credentials})
+                // console.log({credentials})
                 // Validate user(check if user exist and check if password is correct)
                     // Pastikan email dan password ada di credentials
                 if (!credentials?.email || typeof credentials.email !== 'string') {
