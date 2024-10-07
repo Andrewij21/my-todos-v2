@@ -15,16 +15,24 @@ export async function GET(req:Request){
 }
 
 interface BodyPostProps{
-    userId:string;
+    email:string;
     title:string;
     body:string
 }
 export async function POST(request: Request) {
     try {
         const body:BodyPostProps = await request.json();  
+        const isEmailExist = await prisma.user.findUnique({
+            where:{
+                email:body.email
+            }
+        })
+        console.log({isEmailExist})
+        if(!isEmailExist) return NextResponse.json("User not found",{status:404});
+
         const newPost = await prisma.post.create({
             data: {
-                userId:body.userId,
+                userId:isEmailExist.id,
                 title: body.title,
                 body: body.body,
             },
