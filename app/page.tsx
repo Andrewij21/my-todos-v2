@@ -15,10 +15,10 @@ export default function Home() {
     `/todo?email=${session?.user.email}`,
     fetcher
   );
-  console.log({ session });
+  // console.log({ session });
   const handleSaveTodo = async (data: z.infer<typeof CreateTodoSchema>) => {
     try {
-      await postData("/todo", { ...data, userId: "66fbb19453d964750f03a595" });
+      await postData("/todo", { ...data, email: session?.user.email });
       mutate("/todo");
       alert("success");
     } catch (error) {
