@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { SignUpSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function SignUpPage() {
@@ -36,7 +37,8 @@ export default function SignUpPage() {
       await handleSignup(values);
       form.reset();
     } catch (error) {
-      alert(error);
+      console.error(error);
+      toast.error(`${error}`);
     }
   }
   return (

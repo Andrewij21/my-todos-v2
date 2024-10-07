@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Chrome } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function SignInPage() {
@@ -37,7 +38,8 @@ export default function SignInPage() {
       await handleSignIn(values);
       form.reset();
     } catch (error) {
-      alert(error);
+      console.error(error);
+      toast.error(`${error}`);
     }
   }
   return (
@@ -94,7 +96,7 @@ export default function SignInPage() {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={form.formState.isSubmitting}
+                disabled={form.formState.isLoading}
               >
                 sign in
               </Button>

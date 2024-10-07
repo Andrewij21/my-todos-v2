@@ -1,13 +1,13 @@
 'use server';
 
 import { signIn,signOut } from "@/auth";
-import { AuthError } from "next-auth";
 import { prisma } from "@/lib/prismaDb";
 import { Prisma } from "@prisma/client";
 import { SignInSchema, SignUpSchema } from "@/lib/zod";
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs"
+import { AuthError } from "next-auth";
 
 export async function handleSignIn(values:z.infer<typeof SignInSchema>){
     const valudatedFields = SignInSchema.safeParse(values);
@@ -18,17 +18,16 @@ export async function handleSignIn(values:z.infer<typeof SignInSchema>){
     try {
         await signIn('credentials',{email:values.email,password:values.password,redirectTo:"/"})
     } catch (error) {
-         if(error instanceof AuthError){
-            let message="";
+        if(error instanceof AuthError){
             switch(error.type){
                 case "CredentialsSignin":
-                     message = ("Invalid credentials!")
-                     break
+                  throw Error("Credentials is invalid")
                 default:
-                    message = ("Something went wrong!")
+                    console.log("error")
                 }
-                throw Error(message)
             } 
+        console.error("Internal server error 500")
+
        throw error
     }
 }
@@ -64,6 +63,8 @@ export async function handleSignup(values:z.infer<typeof SignUpSchema>){
               )
               throw Error("Email already used")
             }   
+        }else{
+            console.error("Internal server error 500")
         }
         throw error
     }
