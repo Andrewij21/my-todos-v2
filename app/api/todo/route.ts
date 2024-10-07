@@ -27,7 +27,6 @@ export async function POST(request: Request) {
                 email:body.email
             }
         })
-        console.log({isEmailExist})
         if(!isEmailExist) return NextResponse.json("User not found",{status:404});
 
         const newPost = await prisma.post.create({
