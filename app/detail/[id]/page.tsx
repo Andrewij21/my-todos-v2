@@ -1,6 +1,6 @@
 "use client";
 
-import TodoForm, { formSchema } from "@/app/components/TodoForm";
+import TodoForm from "@/app/components/TodoForm";
 import {
   Card,
   CardContent,
@@ -16,6 +16,7 @@ import dateFormater from "@/lib/formatters";
 import fetcher from "@/lib/fetch";
 import { putData } from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
+import { CreateTodoSchema } from "@/lib/zod";
 // Fetcher function for SWR
 // const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -39,11 +40,10 @@ export default function DetailPage({ params }: { params: { id: string } }) {
   }, [data]);
 
   // Handle saving the todo
-  const handleSaveTodo = async (todo: z.infer<typeof formSchema>) => {
+  const handleSaveTodo = async (todo: z.infer<typeof CreateTodoSchema>) => {
     try {
       await putData("/todo/" + data?.id, {
         ...todo,
-        userId: "66fbb19453d964750f03a595",
       });
       push("/");
       // mutate("/todo/" + data?.id);
@@ -54,7 +54,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
   };
 
   // Handle change on todo form
-  const handleTodoChange = (data: z.infer<typeof formSchema>) => {
+  const handleTodoChange = (data: z.infer<typeof CreateTodoSchema>) => {
     setTodo(data);
   };
 
