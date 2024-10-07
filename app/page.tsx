@@ -19,7 +19,7 @@ export default function Home() {
   const handleSaveTodo = async (data: z.infer<typeof CreateTodoSchema>) => {
     try {
       await postData("/todo", { ...data, email: session?.user.email });
-      mutate("/todo");
+      mutate(`/todo?email=${session?.user.email}`);
       alert("success");
     } catch (error) {
       console.error("Error saving todo:", error);
@@ -28,7 +28,8 @@ export default function Home() {
   const handleDeleteTodo = async (id: string) => {
     try {
       await deleteData("/todo/" + id);
-      mutate("/todo");
+      mutate(`/todo?email=${session?.user.email}`);
+      alert("success");
     } catch (error) {
       console.error("Error deleting todo:", error);
     }
@@ -36,9 +37,6 @@ export default function Home() {
   return (
     <div className="flex flex-col md:flex-row p-4 gap-4">
       {error && <div className="w-full">Failed to load todo</div>}
-      {data?.length === 0 && (
-        <div className="w-full">You do not have nothing todo</div>
-      )}
       {data ? (
         <>
           <TodoForm

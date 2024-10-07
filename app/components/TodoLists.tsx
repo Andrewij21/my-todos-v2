@@ -21,7 +21,9 @@ export default function TodoLists({
 }) {
   return (
     <div className={`${className} flex flex-col gap-4`}>
-      {!data && <div>Loading...</div>}
+      {data?.length === 0 && (
+        <div className="w-full">You do not have nothing todo</div>
+      )}
       {data &&
         data.map((todo: Post) => (
           <Card className="relative" key={todo.id}>
