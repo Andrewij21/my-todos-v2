@@ -14,10 +14,12 @@ export default function TodoLists({
   className,
   data,
   deleteHandler,
+  loading,
 }: {
   className: string;
   data: Post[];
   deleteHandler: (p: string) => void;
+  loading: boolean;
 }) {
   return (
     <div className={`${className} flex flex-col gap-4`}>
@@ -41,6 +43,7 @@ export default function TodoLists({
               size="smIcon"
               className="absolute top-2 right-2 bg-destructive hover:bg-destructive/80"
               onClick={() => deleteHandler(todo.id)}
+              disabled={loading}
             >
               <X />
             </Button>

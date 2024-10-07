@@ -29,6 +29,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
     title: "",
     body: "",
   });
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Update todo state when data is fetched
   useEffect(() => {
@@ -43,12 +44,14 @@ export default function DetailPage({ params }: { params: { id: string } }) {
   // Handle saving the todo
   const handleSaveTodo = async (todo: z.infer<typeof CreateTodoSchema>) => {
     try {
+      setLoading(true);
       const editedTodo = putData("/todo/" + data?.id, {
         ...todo,
       });
       toast.promise(editedTodo, {
         loading: "Loading...",
         success: () => {
+          setLoading(false);
           push("/");
           return `Success`;
         },
@@ -87,6 +90,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
             submitHandler={handleSaveTodo}
             onChange={handleTodoChange}
             todo={todo}
+            loading={loading}
           />
         </>
       )}

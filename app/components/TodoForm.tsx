@@ -38,11 +38,13 @@ export default function TodoForm({
   todo,
   submitHandler,
   onChange,
+  loading,
 }: {
   className: string;
   todo?: { title: string; body: string };
   submitHandler: (p: z.infer<typeof CreateTodoSchema>) => void;
   onChange: (data: z.infer<typeof CreateTodoSchema>) => void;
+  loading: boolean;
 }) {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const form = useForm<z.infer<typeof CreateTodoSchema>>({
@@ -97,7 +99,7 @@ export default function TodoForm({
               <TodoFormContent form={form} />
             </CardContent>
             <CardFooter>
-              <Button type="submit" variant="success">
+              <Button type="submit" variant="success" disabled={loading}>
                 {todo ? "Edit" : "Add"}
               </Button>
             </CardFooter>
@@ -117,7 +119,7 @@ export default function TodoForm({
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <TodoFormContent form={form} />
               <DialogFooter className="mt-4">
-                <Button type="submit" variant="success">
+                <Button type="submit" variant="success" disabled={loading}>
                   {todo ? "Edit" : "Add"}
                 </Button>
               </DialogFooter>
