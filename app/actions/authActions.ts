@@ -16,7 +16,7 @@ export async function handleSignIn(values:z.infer<typeof SignInSchema>){
         throw  valudatedFields.error.errors
     }
     try {
-        await signIn('credentials',{email:values.email,password:values.password,redirectTo:"/"})
+        await signIn('credentials',{email:values.email,password:values.password})
     } catch (error) {
         if(error instanceof AuthError){
             switch(error.type){
@@ -70,5 +70,5 @@ export async function handleSignup(values:z.infer<typeof SignUpSchema>){
     }
 }
 export async function handleSignout(){
-   return await signOut()
+    return await signOut()
 }

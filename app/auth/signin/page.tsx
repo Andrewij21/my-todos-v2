@@ -21,11 +21,13 @@ import { SignInSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Chrome } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 export default function SignInPage() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -36,6 +38,8 @@ export default function SignInPage() {
   async function onSubmit(values: z.infer<typeof SignInSchema>) {
     try {
       await handleSignIn(values);
+      router.push("/");
+      window.location.reload();
       form.reset();
     } catch (error) {
       console.error(error);
