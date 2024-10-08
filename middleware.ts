@@ -11,7 +11,9 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
   const res = NextResponse.next();
 
-  res.headers.append('ACCESS-CONTROL-ALLOW-ORIGIN','*')
+  res.headers.append('Access-Control-Allow-Origin', '*'); // Atau domain spesifik
+  res.headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.headers.append('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if(isApiAuthRoute) return undefined;
   if(isAuthRoute){
       if(isLoggedIn) return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT,nextUrl));
