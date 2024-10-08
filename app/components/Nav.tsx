@@ -15,7 +15,7 @@ export default async function Nav() {
         <Link href="/">MY TODO</Link>
       </h1>
       <div className="flex items-center gap-x-4">
-        {session ? (
+        {session?.user ? (
           // <form action={handleSignout}>
           //   <Button type="submit">Sign out</Button>
           // </form>
