@@ -9,7 +9,9 @@ export default auth((req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
+  const res = NextResponse.next();
 
+  res.headers.append('ACCESS-CONTROL-ALLOW-ORIGIN','*')
   if(isApiAuthRoute) return undefined;
   if(isAuthRoute){
       if(isLoggedIn) return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT,nextUrl));
