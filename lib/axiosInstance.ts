@@ -2,13 +2,17 @@ import axios from 'axios';
 
 // Membuat instance axios dengan konfigurasi dasar
 const axiosInstance = axios.create({
-  baseURL: process.env.BASE_API_URL|| "http://localhost:3000/api", // Ganti dengan base URL API kamu
+  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL|| "", // Ganti dengan base URL API kamu
 //   timeout: 10000, // Timeout request (dalam ms)
   headers: {
     'Content-Type': 'application/json',
+   'Access-Control-Allow-Origin': '*',  // Menambahkan header CORS di permintaan
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   },
-});
+}); 
 
+console.log("hi",process.env.NEXT_PUBLIC_BASE_API_URL)
 export const getData = async (url:string) => {
     try {
       const response = await axiosInstance.get(url);
