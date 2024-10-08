@@ -15,7 +15,7 @@ import { Post } from "@prisma/client";
 import dateFormater from "@/lib/formatters";
 import fetcher from "@/lib/fetch";
 import { putData } from "@/lib/axiosInstance";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CreateTodoSchema } from "@/lib/zod";
 import { toast } from "sonner";
 // Fetcher function for SWR
@@ -24,7 +24,7 @@ import { toast } from "sonner";
 export default function DetailPage({ params }: { params: { id: string } }) {
   // Fetch todo data using SWR based on the id from params
   const { data, error } = useSWR<Post, Error>(`/todo/${params.id}`, fetcher);
-  // const { push } = useRouter();
+  const { push } = useRouter();
   const [todo, setTodo] = useState<{ title: string; body: string }>({
     title: "",
     body: "",
@@ -52,8 +52,7 @@ export default function DetailPage({ params }: { params: { id: string } }) {
         loading: "Loading...",
         success: () => {
           setLoading(false);
-          window.location.href = "/";
-          // push("/");
+          push("/");
           return `Success`;
         },
         error: "Error",
